@@ -16,15 +16,15 @@ minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt"
 
 # Site Settings
 locale                   : "en-US"
-title                    : "선만과 함께하는 뻘짓 smtalk Time!"
+title                    : "선만과 함께하는 개발 이야기"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "manijang2"
-description              : "고수가 되고싶은 초보 개발자 입니다"
+description              : "고수가 되고싶은 초보 개발자 이야기"
 url                      : "https://manijang2.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
-teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
+teaser                   : "/assets/images/bio-photo.jpeg" # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
@@ -94,8 +94,8 @@ analytics:
 # Site Author
 author:
   name             : "manijang2"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "항상 뻘짓하고 삽질하고 헤메는 초보 개발자"
+  avatar           : "/assets/images/bio-photo.jpeg"# path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  bio              : "하나하나 알아가는 개발 히스토리"
   location         : "South Korea"
   email            :
   links:
@@ -279,6 +279,7 @@ defaults:
       comments: true # true
       share: true
       related: true
+      classes: wide
   # _pages
   - scope:
       path: ""
@@ -290,3 +291,4 @@ defaults:
       comments: false
       share: true
       related: false
+      classes: wide
