@@ -45,3 +45,34 @@ details > summary {
     transition: none;
   }
 }
+
+/* ── 아카이브: 글 제목 링크 색상 ─────────────────────────────
+   파랑 링크 → 회색, 마우스 오버 시 진한 검정(다크모드에선 자동으로 밝게). */
+#archives a {
+  color: var(--text-muted-color);
+  transition: color 0.15s ease;
+}
+
+#archives a:hover {
+  color: var(--heading-color);
+}
+
+/* 연도 텍스트를 왼쪽으로 이동 (세로 타임라인 선 위치는 그대로 유지) */
+#archives .year {
+  left: -20px; /* 원래 2px */
+}
+
+#archives .year::before {
+  left: 101px; /* 세로선 절대 위치 유지용 보정 (원래 79px) */
+}
+
+/* '년'이 붙어 텍스트가 넓어진 만큼 오른쪽으로 밀린 연도 점(●)을
+   세로선에 맞춰 왼쪽으로 보정 */
+#archives .year::after {
+  left: 22px; /* 원래 21.5px — 세로선에 맞춰 왼쪽으로 보정 */
+}
+
+/* 날짜 텍스트도 왼쪽으로 — li의 overflow:hidden 때문에 과하면 글자 잘림 */
+#archives .date {
+  right: 0.85rem; /* 원래 0.5rem */
+}
