@@ -1,0 +1,47 @@
+---
+---
+
+@use 'abstracts/variables' with (
+  $theme: '{{ site.theme_mode }}'
+);
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* append your custom style below */
+
+/* ── <details> 펼침/접힘 부드러운 애니메이션 ────────────────────────
+   최신 브라우저: ::details-content + interpolate-size 로 height:auto 트랜지션.
+   미지원 브라우저: 애니메이션 없이 즉시 열림(그대로 동작). */
+:root {
+  interpolate-size: allow-keywords; /* height: auto 값으로의 트랜지션 허용 */
+}
+
+details::details-content {
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    height 0.5s ease,
+    opacity 0.5s ease,
+    content-visibility 0.5s allow-discrete;
+}
+
+details[open]::details-content {
+  height: auto;
+  opacity: 1;
+}
+
+details > summary {
+  cursor: pointer; /* 클릭 가능함을 명확히 */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  details::details-content {
+    transition: none;
+  }
+}
