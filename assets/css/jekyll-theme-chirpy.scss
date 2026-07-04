@@ -76,3 +76,13 @@ details > summary {
 #archives .date {
   right: 0.85rem; /* 원래 0.5rem */
 }
+
+/* ── 제목(h1~h4) 진하게 ─────────────────────────────
+   테마 기본값은 font-weight:400(얇음). 본문·포스트 제목을 700(bold)로.
+   .panel-heading·토픽바·사이드바 제목은 각자 클래스(우선순위 ↑)라 영향 없음. */
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+}
