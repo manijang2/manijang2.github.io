@@ -19,7 +19,7 @@ layout: page
     {% endif %}
 
     <li>
-      <span class="date day">{{ post.date | date: '%-m월 %-d일' }}</span>
+      <span class="date day">{{ post.date | date: '%-m월&nbsp;%e일' | replace: ' ', '&#8199;' }}</span>
       <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
     </li>
 
