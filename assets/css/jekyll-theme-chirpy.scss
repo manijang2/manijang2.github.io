@@ -63,15 +63,19 @@ details > summary {
    세로선과의 간격이 좁아짐 → 아래 날짜들의 오른쪽 끝과 맞춤.
    ::before(세로선)·::after(연도 점)는 이 요소를 따라 같이 움직이므로,
    선·점을 제자리에 두려면 각각 반대로 같은 양(-20px)만큼 보정한다. */
+/* 폰트를 티머니 둥근바람으로 바꾸면서 '2026년'의 글자 폭이 넓어져
+   날짜들보다 20px 튀어나왔다. 그만큼 왼쪽으로 더 당김(-8 → -28px). */
 #archives .year {
-  left: -8px; /* 이 값만 조절: 작을수록(음수↑) 왼쪽 이동해 세로선과 간격 넓어짐 */
+  left: -28px; /* 이 값만 조절: 작을수록(음수↑) 왼쪽 이동해 세로선과 간격 넓어짐 */
 }
 
 #archives .year::before {
-  left: 89px; /* 세로선 제자리 유지 보정 (year의 left와 반대로 같은 양) */
+  left: 109px; /* 세로선 제자리 유지 보정 (year의 left와 반대로 같은 양) */
 }
 
-/* 연도 점(●) 제자리 유지 보정 (year의 left와 반대로 같은 양) */
+/* 연도 점(●)은 요소 박스가 아니라 '연도 텍스트 흐름 뒤'에 붙는다.
+   위에서 left를 당긴 만큼 글자 폭이 넓어져 텍스트 오른쪽 끝은 그대로이므로,
+   ::before(박스 기준)와 달리 이쪽은 보정하지 않는다. */
 #archives .year::after {
   left: 10px;
 }
@@ -91,6 +95,56 @@ details > summary {
   font-variant-numeric: tabular-nums;
 }
 
+/* ── 제목(h1~h6) 크기 확대 ─────────────────────────────
+   테마 기본 스케일(h1 2rem ~ h5 1.05rem)은 본문(1.03rem)과 차이가 작아 제목이 덜 두드러진다.
+   테마가 정한 비율은 그대로 두고 배율만 곱해 키운다.
+   h6는 테마 루프가 h1~h5까지만 돌아 크기 지정이 없어(Bootstrap 기본 1rem) 여기서 함께 정한다. */
+:root {
+  --heading-scale: 1.15; /* 이 값만 조절: 1 = 테마 기본, 1.15 = 15% 확대 */
+}
+
+h1 {
+  font-size: calc(2rem * var(--heading-scale));
+}
+
+h2 {
+  font-size: calc(1.54rem * var(--heading-scale));
+}
+
+h3 {
+  font-size: calc(1.36rem * var(--heading-scale));
+}
+
+h4 {
+  font-size: calc(1.18rem * var(--heading-scale));
+}
+
+h5 {
+  font-size: calc(1.05rem * var(--heading-scale));
+}
+
+h6 {
+  font-size: calc(1rem * var(--heading-scale));
+}
+
+/* ── 제목 아래 여백 축소 ─────────────────────────────
+   테마는 main 안에서 h2에 margin-bottom 1.25rem, h3~h5에 1rem을 준다.
+   본문은 line-height 30.6px / 글자 17.5px라 줄 사이 실제 여백이 약 13px인데,
+   헤딩 아래는 여기에 양쪽 line box 여백까지 더해져 약 31px로 벌어져 있었다.
+   0.25rem으로 줄이면 헤딩 아래 여백(~3px) + 0.25rem + 본문 첫 줄 위 여백(~6.6px)
+   ≈ 14px로 본문 줄 간격과 같아진다.
+   위쪽 여백(2~2.5rem)은 그대로 둔다 — 제목이 아래 문단과 한 덩어리로 묶여 보이게. */
+main {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-bottom: 0.25rem;
+  }
+}
+
 /* ── 제목(h1~h4) 진하게 ─────────────────────────────
    테마 기본값은 font-weight:400(얇음). 본문·포스트 제목을 700(bold)로.
    .panel-heading·토픽바·사이드바 제목은 각자 클래스(우선순위 ↑)라 영향 없음. */
@@ -99,6 +153,77 @@ h2,
 h3,
 h4 {
   font-weight: 700;
+}
+
+/* ── 전체 텍스트 크기 ─────────────────────────────
+   테마 전체가 rem 기준이라 루트 폰트만 올리면 본문·사이드바·코드블록까지 비례 확대.
+   반드시 `html`이 아니라 `:root`로 쓸 것. 테마가 _base.scss에서 `:root{font-size:16px}`을
+   지정하는데, :root(의사 클래스, 0-1-0)가 html(타입 선택자, 0-0-1)보다 우선순위가 높아
+   html로 쓰면 아무리 뒤에 와도 무시된다.
+   px가 아닌 %로 주는 이유: 브라우저에서 바꾼 글꼴 크기 설정을 덮지 않기 위해.
+   레이아웃 뼈대(사이드바 260/300px, 본문 최대폭 1600px)는 px이라 그대로 유지된다. */
+:root {
+  font-size: 106.25%; /* 이 값만 조절: 100%=16px, 106.25%=17px, 112.5%=18px */
+}
+
+/* ── 웹폰트 ─────────────────────────────── */
+
+/* 헤딩용 — 국립공원 꼬미체 (단일 굵기) */
+@font-face {
+  font-family: 'KNPSKkomi-Regular00';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/KNPSKkomi-Regular00.woff') format('woff');
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 목록용 — 티머니 둥근바람 (Regular 단일 굵기)
+ *   ※ ExtraBold(800) 컷은 너무 진해서 제거했습니다. 이 폰트는
+ *      Regular/ExtraBold 두 굵기뿐이라 중간 굵기가 없어, 굵은
+ *      목록 글자는 Regular 기반 합성 볼드(faux bold)로 가볍게
+ *      표현됩니다. (다시 진하게 원하면 ExtraBold @font-face 복구) */
+@font-face {
+  font-family: 'Tmoney RoundWind';
+  src: local('Tmoney RoundWind'), local('TmoneyRoundWind-Regular'),
+       url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindRegular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── 폰트 적용 ─────────────────────────────
+   본문 전반은 티머니 둥근바람, 제목(h1~h6)은 국립공원 꼬미.
+   코드블록은 Bootstrap의 `code,kbd,pre,samp{font-family:var(--bs-font-monospace)}`가
+   따로 잡고 있어 body를 바꿔도 고정폭이 유지된다.
+   CDN 실패 시를 대비해 테마 원래 폰트를 fallback으로 남긴다. */
+body {
+  font-family: 'Tmoney RoundWind', 'Source Sans Pro', 'Microsoft Yahei', sans-serif;
+}
+
+/* 테마 규칙은 h1~h5까지만 지정한다(h6 누락). 여기서 h6까지 묶어 덮는다. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'KNPSKkomi-Regular00', 'Tmoney RoundWind', Lato, 'Microsoft Yahei', sans-serif;
+}
+
+/* 테마가 Lato·Oswald·Source Sans Pro를 개별 지정한 곳들 → 본문 폰트로 통일.
+   inherit이라 body 폰트를 바꾸면 이쪽도 자동으로 따라온다. */
+header .post-desc,
+#toc-bar .label,
+#search-results a,
+#toc-popup .header .label,
+#toc-popup #toc-popup-content,
+#toc-solo-trigger .label,
+#notification.toast .toast-body,
+#archives .date.day,
+#topbar-title,
+.pagination,
+.tag span,
+kbd {
+  font-family: inherit;
 }
 
 /* ── 글 하단 구분선 제거 ─────────────────────────────
