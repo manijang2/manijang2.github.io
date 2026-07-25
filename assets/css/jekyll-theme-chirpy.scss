@@ -4,7 +4,8 @@
 @use 'abstracts/variables' with (
   $theme: '{{ site.theme_mode }}',
   // 테마 기본 1250px → 본문 영역 확대
-  $main-content-max-width: 1600px
+  // ※ 이 값을 바꾸면 아래 #back-to-top 보정식의 1900px도 같이 고쳐야 한다.
+  $main-content-max-width: 1900px
 );
 
 /* prettier-ignore */
@@ -127,12 +128,21 @@ h6 {
   font-size: calc(1rem * var(--heading-scale));
 }
 
+/* ── 본문 줄 간격 확대 ─────────────────────────────
+   테마 기본은 main { line-height: 1.75 }.
+   제목(h1~h6)은 Bootstrap이 line-height 1.2를 따로 지정해 여기 영향을 받지 않는다. */
+main {
+  line-height: 1.9; /* 이 값만 조절: 1.75 = 테마 기본 */
+}
+
 /* ── 제목 아래 여백 축소 ─────────────────────────────
    테마는 main 안에서 h2에 margin-bottom 1.25rem, h3~h5에 1rem을 준다.
-   본문은 line-height 30.6px / 글자 17.5px라 줄 사이 실제 여백이 약 13px인데,
-   헤딩 아래는 여기에 양쪽 line box 여백까지 더해져 약 31px로 벌어져 있었다.
-   0.25rem으로 줄이면 헤딩 아래 여백(~3px) + 0.25rem + 본문 첫 줄 위 여백(~6.6px)
-   ≈ 14px로 본문 줄 간격과 같아진다.
+   본문은 line-height 33.3px / 글자 17.5px라 줄 사이 실제 여백이 약 15.8px인데,
+   헤딩 아래는 여기에 양쪽 line box 여백까지 더해져 훨씬 크게 벌어져 있었다.
+   0.3rem으로 줄이면 헤딩 아래 여백(~3px) + 0.3rem + 본문 첫 줄 위 여백(~7.9px)
+   ≈ 16px로 본문 줄 간격과 같아진다.
+   ※ 위 --- 본문 줄 간격 --- 값을 바꾸면 기준이 되는 15.8px도 같이 변하므로
+     이 값도 함께 재조정해야 한다.
    위쪽 여백(2~2.5rem)은 그대로 둔다 — 제목이 아래 문단과 한 덩어리로 묶여 보이게. */
 main {
   h1,
@@ -141,7 +151,7 @@ main {
   h4,
   h5,
   h6 {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.3rem;
   }
 }
 
@@ -234,12 +244,12 @@ kbd {
   border-bottom: none;
 }
 
-/* ── 본문 폭 확대(1600px)에 따른 back-to-top 위치 보정 ─────────────
+/* ── 본문 폭 확대(1900px)에 따른 back-to-top 위치 보정 ─────────────
    테마는 right 좌표를 (100vw - 사이드바 - 본문폭)/2 로 계산하는데,
-   콘텐츠(1600)+사이드바(300)가 다 안 들어가는 1650~1836px 뷰포트에선
+   콘텐츠(1900)+사이드바(300)가 다 안 들어가는 뷰포트에선
    이 값이 음수가 되어 버튼이 화면 밖으로 밀린다. max()로 하한을 둔다. */
 @media (min-width: 1650px) {
   #back-to-top {
-    right: max(1.5rem, calc((100vw - 300px - 1600px) / 2 + 2rem));
+    right: max(1.5rem, calc((100vw - 300px - 1900px) / 2 + 2rem));
   }
 }
