@@ -253,3 +253,43 @@ kbd {
     right: max(1.5rem, calc((100vw - 300px - 1900px) / 2 + 2rem));
   }
 }
+
+/* ── 검색창 왼쪽을 패널의 세로선에 맞춤 ──────────────────────────
+   테마는 검색창을 폭 200px 고정 + margin-right 고정 px 로 놓는데, 패널 폭은
+   %(행 폭의 2/12)라 창 크기에 따라 변한다. 그래서 고정 px 로는 특정 창 너비
+   하나에서만 맞는다. 검색창 폭 자체를 패널 칼럼에 맞춰 % 로 잡으면 창 너비와
+   무관하게 항상 정렬된다.
+
+     100%     = #topbar 콘텐츠 폭
+     + 2rem   = #topbar 좌우 패딩(px-lg-3) → 더하면 행(.row) 폭
+     / 6      = 패널 col-xl-2 폭 (행 폭의 2/12)
+     - 1.5rem = 패널 ps-2(0.5) + #topbar 우측 패딩(1)
+
+   기준은 #toc-wrapper 의 왼쪽 세로선(= h2.panel-heading / #toc 의 border-left).
+   "바로가기" 문구는 제목의 ps-3(1rem) 만큼 더 안쪽이라, 문구에 맞추려면
+   1.5rem 을 2.5rem 으로 바꾸면 된다.
+
+   세로 위치는 테마 그대로 — 검색창은 breadcrumb("홈 > …")과 같은 줄에 있다.
+   패널이 보이는 xl(1200px) 이상에만 적용한다 — 그 아래는 패널이 숨겨져
+   맞출 대상이 없으므로 테마 기본값(200px / 4rem)을 그대로 둔다. */
+@media (min-width: 1200px) {
+  search {
+    width: calc((100% + 2rem) / 6 - 1.5rem);
+    max-width: none;
+    margin-right: 0;
+  }
+}
+
+/* ── 브레드크럼("홈 > …") 위 여백 ─────────────────────────────────
+   topbar 를 통째로 내려서 페이지 최상단과 브레드크럼 사이를 띄운다.
+   topbar 의 height(3rem)나 padding 을 건드리면 그 안에서 세로 중앙 정렬된
+   브레드크럼·검색창의 관계가 틀어지고, $topbar-height 를 참조하는 #toc-bar
+   슬라이드 계산과도 어긋난다. margin 은 박스 내부를 안 건드려서 안전하다.
+   이 값만 조절하면 여백이 바뀐다.
+   lg(850px) 미만에서는 topbar 가 position: fixed 라 margin 이 엉뚱하게
+   먹고 브레드크럼도 숨겨지므로, 그 위에서만 적용한다. */
+@media (min-width: 850px) {
+  #topbar-wrapper {
+    margin-top: 4rem;
+  }
+}
